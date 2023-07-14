@@ -6,6 +6,8 @@ import java.util.List;
 @Entity
 @Table(name="team")
 public class Team {
+
+
     @Id
     @Column(name = "TeamID",nullable = false)
     private String teamID;

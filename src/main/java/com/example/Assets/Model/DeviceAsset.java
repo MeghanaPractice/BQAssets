@@ -10,7 +10,10 @@ import java.time.LocalDate;
 public class DeviceAsset {
 
     @Id
-    @Column(name = "DeviceAssetID")
+    @Column(length = 7)
+    private String deviceNo;
+
+    @Column(name = "DeviceAssetID",unique = true)
     private String deviceAssetID;
     @Column(name = "Brand")
     private String brand;
@@ -164,5 +167,13 @@ public class DeviceAsset {
 
     public void setEmp_ID(String emp_ID) {
         this.emp_ID = emp_ID;
+    }
+
+    public String getDeviceNo() {
+        return deviceNo;
+    }
+
+    public void setDeviceNo(String deviceNo) {
+        this.deviceNo = deviceNo;
     }
 }

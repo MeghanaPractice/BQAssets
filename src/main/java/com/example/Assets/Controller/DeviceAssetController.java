@@ -2,9 +2,9 @@ package com.example.Assets.Controller;
 
 import com.example.Assets.Model.DeviceAsset;
 import com.example.Assets.Repository.DeviceAssetRepository;
+import com.example.Assets.Service.DeviceAssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -15,12 +15,14 @@ public class DeviceAssetController {
     @Autowired
     private DeviceAssetRepository deviceAssetRepository;
 
-    @PostMapping("/add")
+    @Autowired
+    private DeviceAssetService deviceAssetService;
+
+     @PostMapping("/add")
     public String add(@RequestBody DeviceAsset deviceAsset){
         String tempID = deviceAsset.getDeviceAssetID();
         System.out.println("\n---------------\nDevice "+deviceAsset.getModelName()+" Id "+deviceAsset.getDeviceAssetID());
-        deviceAsset.setDeviceAssetID(tempID);
-        deviceAssetRepository.save(deviceAsset);
+        deviceAssetService.createNewDeviceAsset(deviceAsset);
         return "New Device Asset is added";
     }
 
@@ -31,14 +33,15 @@ public class DeviceAssetController {
 
     @GetMapping("/get/{deviceAssetID}")
     public Optional<DeviceAsset> getByDeviceAssetID(@PathVariable String deviceAssetID) {
-        return deviceAssetRepository.findById(deviceAssetID);
+        return deviceAssetRepository.findByDeviceAssetID(deviceAssetID);
     }
 
-    @PutMapping("/edit/{deviceAssetID}")
-    public Optional<DeviceAsset> editDeviceAsset(@RequestBody DeviceAsset newDeviceAsset, @PathVariable String deviceAssetID) {
-        return deviceAssetRepository.findById(deviceAssetID)
+    @PutMapping("/edit/{deviceNo}")
+    public Optional<DeviceAsset> editDeviceAsset(@RequestBody DeviceAsset newDeviceAsset, @PathVariable String deviceNo) {
+        return deviceAssetRepository.findById(deviceNo)
                 .map(deviceAsset -> {
                     String originalID = deviceAsset.getDeviceAssetID();
+                    deviceAsset.setDeviceAssetID(newDeviceAsset.getDeviceAssetID());
                     deviceAsset.setBrand(newDeviceAsset.getBrand());
                     deviceAsset.setCodeRef2(newDeviceAsset.getCodeRef2());
                     deviceAsset.setModelName(newDeviceAsset.getModelName());
@@ -56,13 +59,13 @@ public class DeviceAssetController {
                 });
     }
 
-    @DeleteMapping("/delete/{deviceAssetID}")
-    public String deleteDeviceAsset(@PathVariable String deviceAssetID) {
-        if (!deviceAssetRepository.existsById(deviceAssetID)) {
+    @DeleteMapping("/delete/{deviceNo}")
+    public String deleteDeviceAsset(@PathVariable String deviceNo) {
+        if (!deviceAssetRepository.existsById(deviceNo)) {
             return "No such device asset exists";
         }
-        deviceAssetRepository.deleteById(deviceAssetID);
-        return "Device asset with ID " + deviceAssetID + " has been deleted successfully";
+        deviceAssetRepository.deleteById(deviceNo);
+        return "Device asset with ID " + deviceNo + " has been deleted successfully";
     }
 }
 

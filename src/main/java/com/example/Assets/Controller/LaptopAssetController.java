@@ -2,6 +2,7 @@ package com.example.Assets.Controller;
 
 import com.example.Assets.Model.LaptopAsset;
 import com.example.Assets.Repository.LaptopAssetRepository;
+import com.example.Assets.Service.LaptopAssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,13 +17,14 @@ public class LaptopAssetController {
     @Autowired
     private LaptopAssetRepository laptopAssetRepository;
 
+    @Autowired
+    private LaptopAssetService laptopAssetService;
 
     @PostMapping("/add")
     public String add(@RequestBody LaptopAsset laptopAsset){
         String tempID = laptopAsset.getLaptopAssetID();
         System.out.println("\n---------------\nLaptop "+laptopAsset.getModelName()+" Id "+laptopAsset.getLaptopAssetID());
-        laptopAsset.setLaptopAssetID(tempID);
-        laptopAssetRepository.save(laptopAsset);
+        laptopAssetService.createNewLaptopAsset(laptopAsset);
         return "New Laptop Asset is added";
     }
 
@@ -33,14 +35,15 @@ public class LaptopAssetController {
 
     @GetMapping("/get/{laptopAssetID}")
     public Optional<LaptopAsset> getByLaptopAssetID(@PathVariable String laptopAssetID) {
-        return laptopAssetRepository.findById(laptopAssetID);
+        return laptopAssetRepository.findByLaptopAssetID(laptopAssetID);
     }
 
-    @PutMapping("/edit/{laptopAssetID}")
-    public Optional<LaptopAsset> editLaptopAsset(@RequestBody LaptopAsset newLaptopAsset, @PathVariable String laptopAssetID) {
-        return laptopAssetRepository.findById(laptopAssetID)
+    @PutMapping("/edit/{laptopNo}")
+    public Optional<LaptopAsset> editLaptopAsset(@RequestBody LaptopAsset newLaptopAsset, @PathVariable String laptopNo) {
+        return laptopAssetRepository.findById(laptopNo)
                 .map(laptopAsset -> {
                     String originalID = laptopAsset.getLaptopAssetID();
+                    laptopAsset.setLaptopAssetID(newLaptopAsset.getLaptopAssetID());
                     laptopAsset.setBrand(newLaptopAsset.getBrand());
                     laptopAsset.setPurchaseDate(newLaptopAsset.getPurchaseDate());
                     laptopAsset.setModelName(newLaptopAsset.getModelName());
@@ -64,13 +67,13 @@ public class LaptopAssetController {
                 });
     }
 
-    @DeleteMapping("/delete/{laptopAssetID}")
-    String deleteLaptopAsset(@PathVariable String laptopAssetID) {
-        if (!laptopAssetRepository.existsById(laptopAssetID)) {
+    @DeleteMapping("/delete/{laptopNo}")
+    String deleteLaptopAsset(@PathVariable String laptopNo) {
+        if (!laptopAssetRepository.existsById(laptopNo)) {
             return "No such laptop asset exists";
         }
-        laptopAssetRepository.deleteById(laptopAssetID);
-        return "Laptop asset with ID " + laptopAssetID + " has been deleted successfully";
+        laptopAssetRepository.deleteById(laptopNo);
+        return "Laptop asset with ID " + laptopNo + " has been deleted successfully";
     }
 
 }

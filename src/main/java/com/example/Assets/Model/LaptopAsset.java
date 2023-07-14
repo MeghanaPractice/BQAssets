@@ -9,9 +9,12 @@ import java.time.LocalDate;
 @Table(name="laptopasset")
 public class LaptopAsset {
 
+    @Id
+    @Column(length = 7)
+    private String laptopNo;
     @Column(name = "Brand")
     private String brand;
-    @Id
+    @Column(name = "LaptopAssetID",unique = true)
     private String laptopAssetID;
 
     @Column(name="PurchaseDate",nullable = true)
@@ -239,5 +242,13 @@ public class LaptopAsset {
 
     public void setTeam_ID(String teamID) {
         this.teamID = teamID;
+    }
+
+    public String getLaptopNo() {
+        return laptopNo;
+    }
+
+    public void setLaptopNo(String laptopNo) {
+        this.laptopNo = laptopNo;
     }
 }

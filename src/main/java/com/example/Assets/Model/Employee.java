@@ -10,14 +10,23 @@ import java.util.List;
 public class Employee {
 
     @Id
-    @Column(name = "EmployeeID")
+    @Column(length = 7)
+    private String personID;
+    @Column(name = "EmployeeID",unique = true)
     private String employeeID;
     @Column(name = "EmployeeName")
     private String employeeName;
-
     @Column(name = "TeamIDNo")
     private String teamIDNo;
 
+    @Column(name = "Designation")
+    private String designation;
+
+    @Column(name = "ContactNo")
+    private String contactNo;
+
+    @Column(name = "Email")
+    private String email;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TeamIDNo", referencedColumnName = "TeamID", insertable = false, updatable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
@@ -60,5 +69,37 @@ public class Employee {
 
     public void setTeamIDNo(String teamIDNo) {
         this.teamIDNo = teamIDNo;
+    }
+
+    public String getPersonID() {
+        return personID;
+    }
+
+    public void setPersonID(String personID) {
+        this.personID = personID;
+    }
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
+    public String getContactNo() {
+        return contactNo;
+    }
+
+    public void setContactNo(String contactNo) {
+        this.contactNo = contactNo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
