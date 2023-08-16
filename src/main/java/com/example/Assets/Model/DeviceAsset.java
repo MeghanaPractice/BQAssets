@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "deviceasset")
@@ -15,6 +16,9 @@ public class DeviceAsset {
 
     @Column(name = "DeviceAssetID",unique = true)
     private String deviceAssetID;
+
+    @Column(name = "inUse")
+    private boolean inUse;
     @Column(name = "Brand")
     private String brand;
     @Column(name = "CodeRef2")
@@ -24,18 +28,13 @@ public class DeviceAsset {
     @Column(name = "Category")
     private  String category;
     @Column(name = "PurchaseDate")
-    private LocalDate purchaseDate;
+    private Date purchaseDate;
 
     @Column(name = "Team_IDf")
     private String team_IDf;
 
     @Column(name = "Emp_ID")
     private String emp_ID;
-
-    @Column(name = "ContactNo1")
-    private  String contactNo1;
-    @Column(name = "ContactNo2")
-    private  String contactNo2;
     @Column(name = "IMEICode")
     private  String imeicode;
     @Column(name = "SerialNo")
@@ -97,22 +96,6 @@ public class DeviceAsset {
         this.category = category;
     }
 
-    public String getContactNo1() {
-        return contactNo1;
-    }
-
-    public void setContactNo1(String contactNo1) {
-        this.contactNo1 = contactNo1;
-    }
-
-    public String getContactNo2() {
-        return contactNo2;
-    }
-
-    public void setContactNo2(String contactNo2) {
-        this.contactNo2 = contactNo2;
-    }
-
     public String getImeicode() {
         return imeicode;
     }
@@ -145,11 +128,11 @@ public class DeviceAsset {
         this.additionalInfo = additionalInfo;
     }
 
-    public LocalDate getPurchaseDate() {
+    public Date getPurchaseDate() {
         return purchaseDate;
     }
 
-    public void setPurchaseDate(LocalDate purchaseDate) {
+    public void setPurchaseDate(Date purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 
@@ -175,5 +158,13 @@ public class DeviceAsset {
 
     public void setDeviceNo(String deviceNo) {
         this.deviceNo = deviceNo;
+    }
+
+    public boolean isInUse() {
+        return inUse;
+    }
+
+    public void setInUse(boolean inUse) {
+        this.inUse = inUse;
     }
 }

@@ -43,14 +43,13 @@ public class DeviceAssetController {
                     String originalID = deviceAsset.getDeviceAssetID();
                     deviceAsset.setDeviceAssetID(newDeviceAsset.getDeviceAssetID());
                     deviceAsset.setBrand(newDeviceAsset.getBrand());
+                    deviceAsset.setInUse(newDeviceAsset.isInUse());
                     deviceAsset.setCodeRef2(newDeviceAsset.getCodeRef2());
                     deviceAsset.setModelName(newDeviceAsset.getModelName());
                     deviceAsset.setCategory(newDeviceAsset.getCategory());
                     deviceAsset.setPurchaseDate(newDeviceAsset.getPurchaseDate());
                     deviceAsset.setEmp_ID(newDeviceAsset.getEmp_ID());
                     deviceAsset.setTeam_IDf(newDeviceAsset.getTeam_IDf());
-                    deviceAsset.setContactNo1(newDeviceAsset.getContactNo1());
-                    deviceAsset.setContactNo2(newDeviceAsset.getContactNo2());
                     deviceAsset.setImeicode(newDeviceAsset.getImeicode());
                     deviceAsset.setSerialNo(newDeviceAsset.getSerialNo());
                     deviceAsset.setAccessories(newDeviceAsset.getAccessories());

@@ -1,11 +1,14 @@
 package com.example.Assets.Controller;
 
+import com.example.Assets.Model.DeviceAsset;
 import com.example.Assets.Model.Employee;
+import com.example.Assets.Model.LaptopAsset;
 import com.example.Assets.Repository.EmployeeRepository;
 import com.example.Assets.Service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +16,6 @@ import java.util.Optional;
 @RequestMapping("/employee")
 @CrossOrigin
 public class EmployeeController {
-
     @Autowired
     private EmployeeService employeeService;
     @Autowired
@@ -32,13 +34,12 @@ public class EmployeeController {
     }
 
     @GetMapping("/get/{employeeID}")
-    public Optional<Employee> getByEmployeeID(@PathVariable String employeeID) {return employeeRepository.findByEmployeeID(employeeID);}
+    public Optional<Employee> getByEmployeeID(@PathVariable String employeeID) {return Optional.ofNullable(employeeRepository.findByEmployeeID(employeeID));}
 
     @GetMapping("/getFrom/{teamIDNo}")
     public List<Employee> getByTeamIDNo(@PathVariable String teamIDNo) {
         return employeeRepository.findByTeamIDNo(teamIDNo);
     }
-
 
     @PutMapping("/edit/{personID}")
     public Optional<Employee> editEmployee(@RequestBody Employee newEmployee, @PathVariable String personID)
@@ -55,6 +56,26 @@ public class EmployeeController {
                 });
     }
 
+    @GetMapping("getdevices/{employeeID}")
+    public List<DeviceAsset> getAssignedDevices(@PathVariable String employeeID)
+    {
+        Employee employee = employeeRepository.findByEmployeeID(employeeID);
+        if (employee != null && employee.getDevices()!=null) {
+            return employee.getDevices();
+        } else {
+            return Collections.emptyList();
+        }
+    }
+    @GetMapping("getlaptops/{employeeID}")
+    public List<LaptopAsset> getAssignedLaptops(@PathVariable String employeeID)
+    {
+        Employee employee = employeeRepository.findByEmployeeID(employeeID);
+        if (employee != null && employee.getLaptops()!=null) {
+            return employee.getLaptops();
+        } else {
+            return Collections.emptyList();
+        }
+    }
     @DeleteMapping("/delete/{personID}")
     String deleteEmployee(@PathVariable String personID)
     {

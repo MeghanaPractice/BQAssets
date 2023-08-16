@@ -7,9 +7,10 @@ import java.util.List;
 @Table(name="team")
 public class Team {
 
-
     @Id
-    @Column(name = "TeamID",nullable = false)
+    @Column(length = 7)
+    private String teamNo;
+    @Column(name = "TeamID",nullable = false,unique = true)
     private String teamID;
     @Column(name = "TeamName",nullable = true)
     private String teamName;
@@ -40,5 +41,13 @@ public class Team {
 
     public void setTeamName(String teamName) {
         this.teamName = teamName;
+    }
+
+    public String getTeamNo() {
+        return teamNo;
+    }
+
+    public void setTeamNo(String teamNo) {
+        this.teamNo = teamNo;
     }
 }

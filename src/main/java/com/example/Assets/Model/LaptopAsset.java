@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name="laptopasset")
@@ -12,13 +13,16 @@ public class LaptopAsset {
     @Id
     @Column(length = 7)
     private String laptopNo;
+
+    @Column(name = "inUse")
+    private boolean inUse;
     @Column(name = "Brand")
     private String brand;
     @Column(name = "LaptopAssetID",unique = true)
     private String laptopAssetID;
 
     @Column(name="PurchaseDate",nullable = true)
-    private LocalDate purchaseDate;
+    private Date purchaseDate;
 
     @Column(name = "ModelName")
     private String modelName;
@@ -32,7 +36,7 @@ public class LaptopAsset {
     @Column(name = "EmpID")
     private String empID;
 
-    @Column(name = "Team_ID")
+    @Column(name = "Team_ID",unique = true)
     private String teamID;
 
     @Column(name = "ScreenSize")
@@ -53,12 +57,6 @@ public class LaptopAsset {
     @Column(name = "MSOfficePassword")
     private String msOfficePassword;
 
-    @Column(name = "WLANMac")
-    private String wlanMac;
-
-    @Column(name = "EthernetMAC")
-    private String ethernetMAC;
-
     @Column(name = "Accessories")
     private String accessories;
 
@@ -72,12 +70,12 @@ public class LaptopAsset {
     private String otherDetails;
 
 
-    @ManyToOne(optional = true)
+    @ManyToOne(fetch = FetchType.LAZY,optional = true)
     @JoinColumn(name = "Team_ID",referencedColumnName = "TeamID",insertable = false, updatable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     private Team team;
 
-    @ManyToOne(optional = true)
+    @ManyToOne(fetch = FetchType.LAZY,optional = true)
     @JoinColumn(name = "EmpID",referencedColumnName = "EmployeeID",insertable = false, updatable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     private Employee employee;
@@ -100,11 +98,11 @@ public class LaptopAsset {
         this.laptopAssetID = laptopAssetID;
     }
 
-    public LocalDate getPurchaseDate() {
+    public Date getPurchaseDate() {
         return purchaseDate;
     }
 
-    public void setPurchaseDate(LocalDate purchaseDate) {
+    public void setPurchaseDate(Date purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 
@@ -180,22 +178,6 @@ public class LaptopAsset {
         this.msOfficePassword = MSOfficePassword;
     }
 
-    public String getWLANMac() {
-        return wlanMac;
-    }
-
-    public void setWLANMac(String WLANMac) {
-        this.wlanMac = WLANMac;
-    }
-
-    public String getEthernetMAC() {
-        return ethernetMAC;
-    }
-
-    public void setEthernetMAC(String ethernetMAC) {
-        this.ethernetMAC = ethernetMAC;
-    }
-
     public String getAccessories() {
         return accessories;
     }
@@ -250,5 +232,13 @@ public class LaptopAsset {
 
     public void setLaptopNo(String laptopNo) {
         this.laptopNo = laptopNo;
+    }
+
+    public boolean isInUse() {
+        return inUse;
+    }
+
+    public void setInUse(boolean inUse) {
+        this.inUse = inUse;
     }
 }

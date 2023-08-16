@@ -102,4 +102,20 @@ public class Employee {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public List<DeviceAsset> getDevices() {
+        return devices;
+    }
+
+    public void setDevices(List<DeviceAsset> devices) {
+        this.devices = devices;
+    }
+
+    public List<LaptopAsset> getLaptops() {
+        return laptops;
+    }
+
+    public void setLaptops(List<LaptopAsset> laptops) {
+        this.laptops = laptops;
+    }
 }

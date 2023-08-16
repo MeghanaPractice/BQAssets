@@ -45,6 +45,7 @@ public class LaptopAssetController {
                     String originalID = laptopAsset.getLaptopAssetID();
                     laptopAsset.setLaptopAssetID(newLaptopAsset.getLaptopAssetID());
                     laptopAsset.setBrand(newLaptopAsset.getBrand());
+                    laptopAsset.setInUse(newLaptopAsset.isInUse());
                     laptopAsset.setPurchaseDate(newLaptopAsset.getPurchaseDate());
                     laptopAsset.setModelName(newLaptopAsset.getModelName());
                     laptopAsset.setModelNo(newLaptopAsset.getModelNo());
@@ -57,8 +58,6 @@ public class LaptopAssetController {
                     laptopAsset.setMSOfficeKey(newLaptopAsset.getMSOfficeKey());
                     laptopAsset.setMSOfficeUsername(newLaptopAsset.getMSOfficeUsername());
                     laptopAsset.setMSOfficePassword(newLaptopAsset.getMSOfficePassword());
-                    laptopAsset.setWLANMac(newLaptopAsset.getWLANMac());
-                    laptopAsset.setEthernetMAC(newLaptopAsset.getEthernetMAC());
                     laptopAsset.setAccessories(newLaptopAsset.getAccessories());
                     laptopAsset.setWarranty(newLaptopAsset.getWarranty());
                     laptopAsset.setAdditionalItems(newLaptopAsset.getAdditionalItems());
