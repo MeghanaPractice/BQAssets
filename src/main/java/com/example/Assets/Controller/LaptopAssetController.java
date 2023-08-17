@@ -1,6 +1,8 @@
 package com.example.Assets.Controller;
 
 import com.example.Assets.Model.LaptopAsset;
+import com.example.Assets.Model.Employee;
+import com.example.Assets.Repository.EmployeeRepository;
 import com.example.Assets.Repository.LaptopAssetRepository;
 import com.example.Assets.Service.LaptopAssetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class LaptopAssetController {
 
     @Autowired
     private LaptopAssetService laptopAssetService;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @PostMapping("/add")
     public String add(@RequestBody LaptopAsset laptopAsset){
@@ -40,7 +45,8 @@ public class LaptopAssetController {
 
     @PutMapping("/edit/{laptopNo}")
     public Optional<LaptopAsset> editLaptopAsset(@RequestBody LaptopAsset newLaptopAsset, @PathVariable String laptopNo) {
-        return laptopAssetRepository.findById(laptopNo)
+        if(employeeRepository.findByEmployeeID(newLaptopAsset.getEmpID()).getTeamIDNo() == newLaptopAsset.getTeam_ID())
+         return laptopAssetRepository.findById(laptopNo)
                 .map(laptopAsset -> {
                     String originalID = laptopAsset.getLaptopAssetID();
                     laptopAsset.setLaptopAssetID(newLaptopAsset.getLaptopAssetID());
@@ -64,6 +70,8 @@ public class LaptopAssetController {
                     laptopAsset.setOtherDetails(newLaptopAsset.getOtherDetails());
                     return laptopAssetRepository.save(laptopAsset);
                 });
+
+        return null;
     }
 
     @DeleteMapping("/delete/{laptopNo}")

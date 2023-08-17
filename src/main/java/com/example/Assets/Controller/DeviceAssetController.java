@@ -1,7 +1,9 @@
 package com.example.Assets.Controller;
 
 import com.example.Assets.Model.DeviceAsset;
+import com.example.Assets.Model.Employee;
 import com.example.Assets.Repository.DeviceAssetRepository;
+import com.example.Assets.Repository.EmployeeRepository;
 import com.example.Assets.Service.DeviceAssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +20,9 @@ public class DeviceAssetController {
     @Autowired
     private DeviceAssetService deviceAssetService;
 
-     @PostMapping("/add")
+    @Autowired
+    private EmployeeRepository employeeRepository;
+    @PostMapping("/add")
     public String add(@RequestBody DeviceAsset deviceAsset){
         String tempID = deviceAsset.getDeviceAssetID();
         System.out.println("\n---------------\nDevice "+deviceAsset.getModelName()+" Id "+deviceAsset.getDeviceAssetID());
@@ -38,7 +42,9 @@ public class DeviceAssetController {
 
     @PutMapping("/edit/{deviceNo}")
     public Optional<DeviceAsset> editDeviceAsset(@RequestBody DeviceAsset newDeviceAsset, @PathVariable String deviceNo) {
-        return deviceAssetRepository.findById(deviceNo)
+        if(employeeRepository.findByEmployeeID(newDeviceAsset.getEmp_ID()).getTeamIDNo() == newDeviceAsset.getEmp_ID())
+
+            return deviceAssetRepository.findById(deviceNo)
                 .map(deviceAsset -> {
                     String originalID = deviceAsset.getDeviceAssetID();
                     deviceAsset.setDeviceAssetID(newDeviceAsset.getDeviceAssetID());
@@ -56,6 +62,7 @@ public class DeviceAssetController {
                     deviceAsset.setAdditionalInfo(newDeviceAsset.getAdditionalInfo());
                     return deviceAssetRepository.save(deviceAsset);
                 });
+        return null;
     }
 
     @DeleteMapping("/delete/{deviceNo}")
