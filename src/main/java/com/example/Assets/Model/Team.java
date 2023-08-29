@@ -25,6 +25,12 @@ public class Team {
     @OneToMany(mappedBy = "team")
     private List<DeviceAsset> devices;
 
+    @OneToMany(mappedBy = "team")
+    private List<Software> softwares;
+
+    @OneToMany(mappedBy = "team")
+    private List<Hardware> hardwares;
+
     public Team() {}
 
     public String getTeamID() {

@@ -38,6 +38,12 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private List<DeviceAsset> devices;
 
+    @OneToMany(mappedBy = "employee")
+    private List<Software> softwares;
+
+    @OneToMany(mappedBy = "employee")
+    private List<Hardware> hardwares;
+
     public Employee()
     {
 
@@ -117,5 +123,21 @@ public class Employee {
 
     public void setLaptops(List<LaptopAsset> laptops) {
         this.laptops = laptops;
+    }
+
+    public List<Software> getSoftwares() {
+        return softwares;
+    }
+
+    public void setSoftwares(List<Software> softwares) {
+        this.softwares = softwares;
+    }
+
+    public List<Hardware> getHardwares() {
+        return hardwares;
+    }
+
+    public void setHardwares(List<Hardware> hardwares) {
+        this.hardwares = hardwares;
     }
 }

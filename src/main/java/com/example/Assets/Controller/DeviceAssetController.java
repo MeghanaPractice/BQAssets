@@ -42,8 +42,7 @@ public class DeviceAssetController {
 
     @PutMapping("/edit/{deviceNo}")
     public Optional<DeviceAsset> editDeviceAsset(@RequestBody DeviceAsset newDeviceAsset, @PathVariable String deviceNo) {
-        if(employeeRepository.findByEmployeeID(newDeviceAsset.getEmp_ID()).getTeamIDNo() == newDeviceAsset.getEmp_ID())
-
+        if(employeeRepository.findByEmployeeID(newDeviceAsset.getEmp_ID()).getTeamIDNo().equals(newDeviceAsset.getEmp_ID()))
             return deviceAssetRepository.findById(deviceNo)
                 .map(deviceAsset -> {
                     String originalID = deviceAsset.getDeviceAssetID();

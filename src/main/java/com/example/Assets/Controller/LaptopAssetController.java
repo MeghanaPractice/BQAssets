@@ -1,7 +1,7 @@
 package com.example.Assets.Controller;
 
 import com.example.Assets.Model.LaptopAsset;
-import com.example.Assets.Model.Employee;
+import com.example.Assets.Model.Software;
 import com.example.Assets.Repository.EmployeeRepository;
 import com.example.Assets.Repository.LaptopAssetRepository;
 import com.example.Assets.Service.LaptopAssetService;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/laptopasset")
@@ -43,34 +44,43 @@ public class LaptopAssetController {
         return laptopAssetRepository.findByLaptopAssetID(laptopAssetID);
     }
 
+    @GetMapping("/getassigned/{laptopAssetID}")
+    public Optional<Set<Software>> getBySoftwareLaptopAssetID(@PathVariable String laptopAssetID) {
+        LaptopAsset laptopAsset = laptopAssetRepository.findByLaptopAssetID(laptopAssetID).orElse(null);
+        if(laptopAsset!=null){
+        Set<Software> software = laptopAsset.getAssignedSoftwares();
+        return Optional.ofNullable(software);
+        }
+        return null;
+    }
+
     @PutMapping("/edit/{laptopNo}")
     public Optional<LaptopAsset> editLaptopAsset(@RequestBody LaptopAsset newLaptopAsset, @PathVariable String laptopNo) {
-        if(employeeRepository.findByEmployeeID(newLaptopAsset.getEmpID()).getTeamIDNo() == newLaptopAsset.getTeam_ID())
-         return laptopAssetRepository.findById(laptopNo)
-                .map(laptopAsset -> {
-                    String originalID = laptopAsset.getLaptopAssetID();
-                    laptopAsset.setLaptopAssetID(newLaptopAsset.getLaptopAssetID());
-                    laptopAsset.setBrand(newLaptopAsset.getBrand());
-                    laptopAsset.setInUse(newLaptopAsset.isInUse());
-                    laptopAsset.setPurchaseDate(newLaptopAsset.getPurchaseDate());
-                    laptopAsset.setModelName(newLaptopAsset.getModelName());
-                    laptopAsset.setModelNo(newLaptopAsset.getModelNo());
-                    laptopAsset.setSerialNo(newLaptopAsset.getSerialNo());
-                    laptopAsset.setEmpID(newLaptopAsset.getEmpID());
-                    laptopAsset.setTeam_ID(newLaptopAsset.getTeam_ID());
-                    laptopAsset.setScreenSize(newLaptopAsset.getScreenSize());
-                    laptopAsset.setCharlesID(newLaptopAsset.getCharlesID());
-                    laptopAsset.setCharlesKey(newLaptopAsset.getCharlesKey());
-                    laptopAsset.setMSOfficeKey(newLaptopAsset.getMSOfficeKey());
-                    laptopAsset.setMSOfficeUsername(newLaptopAsset.getMSOfficeUsername());
-                    laptopAsset.setMSOfficePassword(newLaptopAsset.getMSOfficePassword());
-                    laptopAsset.setAccessories(newLaptopAsset.getAccessories());
-                    laptopAsset.setWarranty(newLaptopAsset.getWarranty());
-                    laptopAsset.setAdditionalItems(newLaptopAsset.getAdditionalItems());
-                    laptopAsset.setOtherDetails(newLaptopAsset.getOtherDetails());
-                    return laptopAssetRepository.save(laptopAsset);
-                });
-
+        if(employeeRepository.findByEmployeeID(newLaptopAsset.getEmpID()).getTeamIDNo().equals(newLaptopAsset.getTeam_ID())) {
+            return laptopAssetRepository.findById(laptopNo)
+                    .map(laptopAsset -> {
+                        String originalID = laptopAsset.getLaptopAssetID();
+                        laptopAsset.setLaptopAssetID(newLaptopAsset.getLaptopAssetID());
+                        laptopAsset.setBrand(newLaptopAsset.getBrand());
+                        laptopAsset.setInUse(newLaptopAsset.isInUse());
+                        laptopAsset.setPurchaseDate(newLaptopAsset.getPurchaseDate());
+                        laptopAsset.setModelName(newLaptopAsset.getModelName());
+                        laptopAsset.setModelNo(newLaptopAsset.getModelNo());
+                        laptopAsset.setSerialNo(newLaptopAsset.getSerialNo());
+                        laptopAsset.setEmpID(newLaptopAsset.getEmpID());
+                        laptopAsset.setTeam_ID(newLaptopAsset.getTeam_ID());
+                        laptopAsset.setScreenSize(newLaptopAsset.getScreenSize());
+                        laptopAsset.setCharlesID(newLaptopAsset.getCharlesID());
+                        laptopAsset.setCharlesKey(newLaptopAsset.getCharlesKey());
+                        laptopAsset.setMSOfficeKey(newLaptopAsset.getMSOfficeKey());
+                        laptopAsset.setMSOfficeUsername(newLaptopAsset.getMSOfficeUsername());
+                        laptopAsset.setMSOfficePassword(newLaptopAsset.getMSOfficePassword());
+                        laptopAsset.setAccessories(newLaptopAsset.getAccessories());
+                        laptopAsset.setWarranty(newLaptopAsset.getWarranty());
+                        laptopAsset.setAdditionalItems(newLaptopAsset.getAdditionalItems());
+                        laptopAsset.setOtherDetails(newLaptopAsset.getOtherDetails());
+                        return laptopAssetRepository.save(laptopAsset);
+                    });}
         return null;
     }
 

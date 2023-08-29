@@ -1,16 +1,12 @@
 package com.example.Assets.Controller;
 
-import com.example.Assets.Model.DeviceAsset;
-import com.example.Assets.Model.Employee;
-import com.example.Assets.Model.LaptopAsset;
+import com.example.Assets.Model.*;
 import com.example.Assets.Repository.EmployeeRepository;
 import com.example.Assets.Service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/employee")
@@ -76,6 +72,33 @@ public class EmployeeController {
             return Collections.emptyList();
         }
     }
+
+    @GetMapping("getsoftwares/{employeeID}")
+    public Set<Software> getAssignedSoftware(@PathVariable String employeeID)
+    {
+        Employee employee = employeeRepository.findByEmployeeID(employeeID);
+        List<LaptopAsset> laptops = employee.getLaptops();
+        Set<Software> allSoftwares = new HashSet<>();
+        laptops.forEach((l)->l.getAssignedSoftwares().forEach(a->allSoftwares.add(a)));
+        if (employee != null && allSoftwares!=null) {
+            return  allSoftwares;
+        } else {
+            return Collections.emptySet();
+        }
+    }
+
+    @GetMapping("gethardwares/{employeeID}")
+    public List<Hardware> getAssignedHardware(@PathVariable String employeeID)
+    {
+        Employee employee = employeeRepository.findByEmployeeID(employeeID);
+        if (employee != null && employee.getHardwares()!=null) {
+            return employee.getHardwares();
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+
     @DeleteMapping("/delete/{personID}")
     String deleteEmployee(@PathVariable String personID)
     {

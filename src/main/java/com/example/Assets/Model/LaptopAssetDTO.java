@@ -1,94 +1,55 @@
 package com.example.Assets.Model;
 
-import com.example.Assets.Service.LaptopAssetSerializer;
-import com.example.Assets.Service.SoftwareSerializer;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
-@Entity
-@Table(name="laptopasset")
-@JsonSerialize(using = LaptopAssetSerializer.class)
-public class LaptopAsset {
+public class LaptopAssetDTO {
 
-    @Id
-    @Column(length = 7)
     private String laptopNo;
 
-    @Column(name = "inUse")
     private boolean inUse;
-    @Column(name = "Brand")
+
     private String brand;
-    @Column(name = "LaptopAssetID",unique = true)
     private String laptopAssetID;
 
-    @Column(name="PurchaseDate",nullable = true)
     private Date purchaseDate;
 
-    @Column(name = "ModelName")
     private String modelName;
 
-    @Column(name = "ModelNo")
     private String modelNo;
 
-    @Column(name = "SerialNo")
     private String serialNo;
 
-    @Column(name = "EmpID")
     private String empID;
 
-    @Column(name = "Team_ID",unique = true)
     private String teamID;
 
-    @Column(name = "ScreenSize")
     private String screenSize;
 
-    @Column(name = "CharlesID")
     private String charlesID;
 
-    @Column(name = "CharlesKey")
     private String charlesKey;
 
-    @Column(name = "MSOfficeKey")
     private String msOfficeKey;
 
-    @Column(name = "MSOfficeUsername")
     private String msOfficeUsername;
 
-    @Column(name = "MSOfficePassword")
     private String msOfficePassword;
 
-    @Column(name = "Accessories")
     private String accessories;
 
-    @Column(name = "Warranty")
     private String warranty;
 
-    @Column(name = "AdditionalItems")
     private String additionalItems;
-
-    @Column(name = "OtherDetails")
     private String otherDetails;
+    private Set<Software> assignedSoftwares;
 
-
-    @ManyToOne(fetch = FetchType.LAZY,optional = true)
-    @JoinColumn(name = "Team_ID",referencedColumnName = "TeamID",insertable = false, updatable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer"})
-    private Team team;
-
-    @ManyToOne(fetch = FetchType.LAZY,optional = true)
-    @JoinColumn(name = "EmpID",referencedColumnName = "EmployeeID",insertable = false, updatable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer"})
-    private Employee employee;
-
-    @ManyToMany(mappedBy = "assignedLaptops")
-    @JsonIgnore
-    Set<Software> assignedSoftwares;
-    public LaptopAsset(){}
+    private List<String> assignedSoftwareNames;
 
     public String getBrand() {
         return brand;
@@ -250,12 +211,23 @@ public class LaptopAsset {
         this.inUse = inUse;
     }
 
-
     public Set<Software> getAssignedSoftwares() {
         return this.assignedSoftwares;
     }
 
-    public void setAssignedSoftwares(Set<Software> assignedSoftwares) {this.assignedSoftwares = assignedSoftwares;}
+    public boolean getInUse() {
+        return this.inUse;
+    }
 
+    public void setAssignedSoftwares(Set<Software> assignedSoftwares) {
+        this.assignedSoftwares = assignedSoftwares;
+    }
 
+    public List<String> getAssignedSoftwareNames() {
+        return assignedSoftwareNames;
+    }
+
+    public void setAssignedSoftwareNames(List<String> assignedSoftwareNames) {
+        this.assignedSoftwareNames = assignedSoftwareNames;
+    }
 }
