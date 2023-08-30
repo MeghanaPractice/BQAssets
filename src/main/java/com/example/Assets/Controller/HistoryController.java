@@ -24,13 +24,14 @@ public class HistoryController {
     public  List<History>  list(@PathVariable String tablename) { return  historyRepository.findByTablename(tablename); }
 
     @GetMapping("getBy/{tablename}/{changetype}")
-    public Optional<History> list(@PathVariable String tablename, @PathVariable String changetype) {
+    public List<History> list(@PathVariable String tablename, @PathVariable String changetype) {
 
            List<History> latest = historyRepository.findByTablenameAndChangetypeOrderByTimeDesc(tablename, changetype);
            if(latest!=null)
            {
+
                System.out.println("\nHistory updated:"+latest.get(0).getId()+" at "+latest.get(0).getTime());
-               return Optional.ofNullable(latest.get(0));
+               return latest;
            }
            else
                return null;
@@ -39,6 +40,7 @@ public class HistoryController {
     @PutMapping("/edit/{id}")
     public Optional<History> editHistory(@RequestBody History newHistory,@PathVariable Integer id)
     {
+        
         return historyRepository.findById(id)
                 .map(history -> {
                     history.setChangedBy(newHistory.getChangedBy());
