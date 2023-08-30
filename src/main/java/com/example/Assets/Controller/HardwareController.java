@@ -44,7 +44,7 @@ public class HardwareController {
 
     @PutMapping("/edit/{hardwareNo}")
     public Optional<Hardware> editHardware(@RequestBody Hardware newHardware, @PathVariable String hardwareNo) {
-        if(employeeRepository.findByEmployeeID(newHardware.getAssignedToEmp()).getTeamIDNo().equals(newHardware.getInTeamf())) {
+        if((newHardware.getInTeamf()==null)|| (employeeRepository.findByEmployeeID(newHardware.getAssignedToEmp()).getTeamIDNo().equals(newHardware.getInTeamf()))) {
             return hardwareRepository.findById(hardwareNo)
                     .map(hardware -> {
                         String originalID = hardware.getHardwareID();

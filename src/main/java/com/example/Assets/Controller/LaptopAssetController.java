@@ -56,7 +56,7 @@ public class LaptopAssetController {
 
     @PutMapping("/edit/{laptopNo}")
     public Optional<LaptopAsset> editLaptopAsset(@RequestBody LaptopAsset newLaptopAsset, @PathVariable String laptopNo) {
-        if(employeeRepository.findByEmployeeID(newLaptopAsset.getEmpID()).getTeamIDNo().equals(newLaptopAsset.getTeam_ID())) {
+        if((newLaptopAsset.getTeam_ID()==null)||(employeeRepository.findByEmployeeID(newLaptopAsset.getEmpID()).getTeamIDNo().equals(newLaptopAsset.getTeam_ID()))) {
             return laptopAssetRepository.findById(laptopNo)
                     .map(laptopAsset -> {
                         String originalID = laptopAsset.getLaptopAssetID();
